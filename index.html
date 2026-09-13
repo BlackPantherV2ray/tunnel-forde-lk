@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunnel Forde LK | Premium Client Panel</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Identity Services (Sign In with Google) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/images/logo_round.jpg">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css?v=1.3.5">
+</head>
+<body class="light-mode">
+
+    <!-- Global Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Login Page Container: Google Sign-In -->
+    <div class="login-container" id="loginCard">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="brand-logo large">
+                    <img src="assets/images/logo_round.jpg" alt="Tunnel Forde LK" class="site-main-logo">
+                </div>
+                <h2>Tunnel Forde LK</h2>
+                <p>High-Speed V2Ray VPN Service</p>
+            </div>
+            
+            <div style="margin: 1.5rem 0 1rem 0; text-align: center;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                    ඔබගේ Google ගිණුම මගින් කෙලින්ම Sign in වී High-speed VPN Configs ලබාගන්න.
+                </p>
+
+                <!-- Google Sign-In Metadata -->
+                <div id="g_id_onload"
+                     data-client_id="913090074120-sjole7f9tqiih87vacv0kt76s5b3tip9.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-callback="handleCredentialResponse"
+                     data-auto_prompt="false">
+                </div>
+
+                <!-- Google Official Rendered Sign-In Button Container -->
+                <div id="googleSignInBtnContainer" style="display: flex; justify-content: center; min-height: 46px; margin-bottom: 0.75rem;"></div>
+
+                <!-- Styled Google Button -->
+                <button id="fallbackGoogleBtn" type="button" class="google-auth-btn" onclick="triggerGoogleSignIn()">
+                    <svg class="google-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                    <i class="fas fa-arrow-right google-btn-arrow"></i>
+                </button>
+
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-top: 1.25rem; color: var(--text-muted); font-size: 0.78rem;">
+                    <i class="fas fa-shield-halved" style="color: #10b981;"></i>
+                    <span>Secure 1-Click Authentication</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Wrapper -->
+    <div class="app-wrapper" id="appCard" style="display: none;">
+        
+        <!-- Sidebar Navigation (Left) -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <img src="assets/images/logo_round.jpg" alt="Tunnel Forde LK" class="sidebar-logo-img">
+                </div>
+                <div class="brand-name">
+                    <span>TUNNEL</span>
+                    <span class="accent">FORDE LK</span>
+                </div>
+                <button type="button" class="btn-close-sidebar" onclick="closeMobileSidebar()" aria-label="Close Sidebar">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- User Profile Summary in Sidebar -->
+            <div class="sidebar-user-card" id="sidebarUserCard">
+                <div class="sidebar-avatar-wrapper">
+                    <img src="https://lh3.googleusercontent.com/a/default-user=s96-c" alt="Profile" class="sidebar-user-avatar" id="sidebarUserAvatar">
+                    <span class="user-status-indicator online" id="sidebarUserStatusDot" title="Online"></span>
+                </div>
+                <div class="sidebar-user-info">
+                    <h4 class="sidebar-user-name" id="sidebarUserName">User</h4>
+                    <span class="sidebar-user-email" id="sidebarUserEmail">user@gmail.com</span>
+                    <span class="sidebar-user-badge user" id="sidebarUserBadge">⚡ USER</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <ul class="nav-list">
+                    <li>
+                        <a href="#" class="nav-link active" onclick="switchTab('dashboard', event)">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" onclick="switchTab('packages', event)">
+                            <i class="fas fa-box"></i>
+                            <span>Packages</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" onclick="switchTab('orders', event)">
+                            <i class="fas fa-receipt"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" onclick="switchTab('accounts', event)">
+                            <i class="fas fa-user-shield"></i>
+                            <span>My Accounts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" onclick="switchTab('freeConfigs', event)">
+                            <i class="fas fa-circle-nodes"></i>
+                            <span>Free Configs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" id="navLinkReferral" onclick="scrollToReferralCard(event)">
+                            <i class="fas fa-gift text-gold"></i>
+                            <span>Refer & Earn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" id="navLinkMessages" onclick="switchTab('messages', event)">
+                            <div style="position: relative; display: inline-flex; align-items: center;">
+                                <i class="fas fa-comment-dots"></i>
+                                <span id="userNavChatPulseDot" class="nav-msg-pulse-dot" style="display: none;"></span>
+                            </div>
+                            <span>Messages</span>
+                            <span id="userNavChatBadge" class="nav-msg-badge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" onclick="switchTab('posts', event)">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Posts</span>
+                        </a>
+                    </li>
+                    <li id="adminTabNav" style="display: none;">
+                        <a href="#" class="nav-link" id="navLinkAdmin" onclick="switchTab('admin', event)">
+                            <div style="position: relative; display: inline-flex; align-items: center;">
+                                <i class="fas fa-user-shield"></i>
+                                <span id="adminNavChatPulseDot" class="nav-msg-pulse-dot" style="display: none;"></span>
+                            </div>
+                            <span>Admin Panel</span>
+                            <span id="adminNavChatBadge" class="nav-msg-badge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="social-contact">
+                    <span>Connect with us</span>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <a href="https://t.me/Black_Panther_V2ray" target="_blank" class="social-btn social-telegram" title="Telegram: @Black_Panther_V2ray">
+                            <i class="fab fa-telegram-plane"></i>
+                        </a>
+                        <a href="https://wa.me/94729596617" target="_blank" class="social-btn social-whatsapp" title="WhatsApp: 0729596617">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-logout" onclick="handleLogout()">
+                    <i class="fas fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area (Right) -->
+        <main class="main-content">
+            
+            <!-- Global Top Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
+                        <i class="fas fa-bars-staggered"></i>
+                    </button>
+                    <div class="header-avatar-btn" onclick="toggleMobileSidebar()" title="View Profile">
+                        <img src="https://lh3.googleusercontent.com/a/default-user=s96-c" alt="Profile" class="header-user-avatar" id="headerUserAvatar">
+                    </div>
+                    <div class="header-titles">
+                        <h2 id="welcomeUser">Welcome back, User</h2>
+                        <p id="headerSubtitle">Here's your account overview</p>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <!-- Live Support Chat Instant Alert Pill (Always visible in header) -->
+                    <button id="headerChatAlertBtn" class="header-chat-alert" onclick="switchTab('messages')" style="display: none;" title="New message from Admin!">
+                        <i class="fas fa-comment-dots"></i>
+                        <span class="header-chat-alert-label">Support</span>
+                        <span id="headerChatAlertBadge" class="badge">1</span>
+                    </button>
+
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper">
+                        <button class="header-action-btn" onclick="toggleAnnouncements()">
+                            <i class="far fa-bell animate-pulse"></i>
+                            <span class="badge" id="notifBadge">1</span>
+                        </button>
+                    </div>
+
+                    <!-- Coin Wallet Widget -->
+                    <div class="coin-wallet-widget" title="Data Coins Wallet">
+                        <i class="fas fa-coins text-gold spin-gold"></i>
+                        <span id="userCoinsBalance">0 Coins</span>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                        <span class="theme-btn-text">Dark Mode</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- dynamic sections container -->
+            <div class="tab-view-container">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section id="view-dashboard" class="tab-view active">
+                    <!-- Unread Chat Notification Banner for User -->
+                    <div id="userDashboardChatAlert" class="user-chat-alert-banner" style="display: none;" onclick="switchTab('messages')">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span class="whatsapp-alert-icon"><i class="fas fa-comment-dots"></i></span>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 0.88rem;">New Support Reply Received!</strong>
+                                <div style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.9);">Admin has replied to your inquiry. Tap to open live chat.</div>
+                            </div>
+                        </div>
+                        <span id="userDashboardAlertCount" class="whatsapp-unread-badge" style="background: #ffffff; color: #059669; font-weight: 800; box-shadow: none;">1 New</span>
+                    </div>
+
+                    <!-- Configuration Usage stats -->
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Configuration Usage</h3>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="configSelector" onchange="switchActivePackage(this.value)">
+                                        <option value="">Select Configuration</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="btnDeleteSelectedConfig" class="btn-delete-item" title="Delete selected configuration" onclick="deleteCurrentSelectedPackage()" style="display: none;">
+                                    <i class="fas fa-trash-can"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Usage Stats Grid -->
+                        <div class="stats-grid">
+                            <!-- Upload -->
+                            <div class="stat-card">
+                                <div class="stat-icon icon-upload">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span>Upload</span>
+                                    <h4 id="statUpload">0 GB</h4>
+                                </div>
+                            </div>
+                            <!-- Download -->
+                            <div class="stat-card">
+                                <div class="stat-icon icon-download">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span>Download</span>
+                                    <h4 id="statDownload">0 GB</h4>
+                                </div>
+                            </div>
+                            <!-- Expires In -->
+                            <div class="stat-card">
+                                <div class="stat-icon icon-expiry">
+                                    <i class="far fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span>Expires In</span>
+                                    <h4 id="statExpiry">-- Days</h4>
+                                </div>
+                            </div>
+                            <!-- Status -->
+                            <div class="stat-card">
+                                <div class="stat-icon icon-status" id="statusBadgeIcon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span>Status</span>
+                                    <h4 id="statStatus">--</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Usage Charts Grid -->
+                    <div class="charts-grid">
+                        <!-- Left Bar Charts -->
+                        <div class="card chart-card">
+                            <h4>Bandwidth Breakdown</h4>
+                            <div class="bar-chart-container">
+                                <div class="bar-chart-group">
+                                    <div class="bar-label">
+                                        <span>Upload Usage</span>
+                                        <span id="barUploadText">0.00 GB</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill upload-fill" id="barUploadFill" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-chart-group">
+                                    <div class="bar-label">
+                                        <span>Download Usage</span>
+                                        <span id="barDownloadText">0.00 GB</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill download-fill" id="barDownloadFill" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center Circle gauge chart -->
+                        <div class="card gauge-card">
+                            <h4>Consumption Percentage</h4>
+                            <div class="gauge-container">
+                                <svg class="gauge-svg" viewBox="0 0 100 100">
+                                    <!-- Background circle -->
+                                    <circle class="gauge-bg" cx="50" cy="50" r="40" />
+                                    <!-- Active Progress line -->
+                                    <circle class="gauge-progress" id="gaugeCircleFill" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+                                </svg>
+                                <div class="gauge-text">
+                                    <h2 id="gaugePercentText">0%</h2>
+                                    <span>Used</span>
+                                </div>
+                            </div>
+                            <div class="gauge-legend">
+                                <span><i class="fas fa-circle text-gradient"></i> Used (<strong id="gaugeUsedVal">0.00 GB</strong>)</span>
+                                <span><i class="fas fa-circle text-muted"></i> Remaining (<strong id="gaugeRemainingVal">0.00 GB</strong>)</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Empty Placeholder / Info Card -->
+                        <div class="card info-card">
+                            <h4>Connection Status</h4>
+                            <div class="connection-status-content" id="connectionStatusContent">
+                                <i class="fas fa-shield-halved text-gradient" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                                <p id="connectionStatusMsg" style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">No active package found. Connect to high-speed tunneling VPN configs by activating a plan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Configurations section -->
+                    <div class="content-section" style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Active Configurations</h3>
+                        <div id="activeConfigsSection">
+                            <!-- Populated Dynamically or shows placeholder -->
+                            <div class="empty-state-card">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-link" style="color: var(--primary);"></i>
+                                </div>
+                                <h4>Link your V2Ray Subscription Line</h4>
+                                <p style="margin-bottom: 1rem;">Paste your X-UI subscription URL to synchronize bandwidth stats automatically.</p>
+                                <div style="display: flex; gap: 0.5rem; width: 100%; max-width: 500px; margin: 0 auto;">
+                                    <input type="text" id="dashboardSubLinkInput" class="form-control" placeholder="Paste X-UI Subscription Link (http://...)" style="flex: 1; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none; font-size: 0.85rem;">
+                                    <button class="btn btn-primary" onclick="linkSubscriptionFromDashboard()" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600;">Link</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Refer & Earn Program Card -->
+                    <div class="content-section" id="dashboardReferralProgramCard" style="margin-top: 2rem; border: 1px solid rgba(251, 191, 36, 0.25); background: linear-gradient(135deg, rgba(251, 191, 36, 0.04) 0%, rgba(139, 92, 246, 0.04) 100%); border-radius: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(251, 191, 36, 0.15); display: flex; align-items: center; justify-content: center; color: #fbbf24; font-size: 1.4rem; border: 1px solid rgba(251, 191, 36, 0.3);">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.15rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span>Refer Friends, Earn Data Coins!</span>
+                                        <span class="badge" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 0.68rem; padding: 2px 9px; border-radius: 20px; font-weight: 800; letter-spacing: 0.5px;">+10 COINS ON PURCHASE</span>
+                                    </h3>
+                                    <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.82rem;">Share your invite link with friends. When they buy their first data package, you instantly get <strong>10 Data Coins</strong>!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Link & Share Box -->
+                        <div style="background: var(--bg-app); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;">
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.4rem;">Your Personal Referral Link:</label>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <input type="text" id="dashboardReferralLinkInput" readonly placeholder="Generating referral link..." value="" style="flex: 1; min-width: 220px; padding: 0.7rem 1rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-size: 0.85rem; font-family: monospace; outline: none;">
+                                <button type="button" class="btn btn-primary" onclick="copyReferralLink()" style="padding: 0.7rem 1.25rem; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+                                    <i class="fas fa-copy"></i> Copy Link
+                                </button>
+                                <button type="button" class="btn" onclick="shareReferralWhatsApp()" style="padding: 0.7rem 1.25rem; border-radius: 10px; font-weight: 700; background: #25D366; color: #ffffff; border: none; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button type="button" class="btn" onclick="shareReferralTelegram()" style="padding: 0.7rem 1.25rem; border-radius: 10px; font-weight: 700; background: #229ED9; color: #ffffff; border: none; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                                    <i class="fab fa-telegram"></i> Telegram
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Referral Stats Metrics -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
+                            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.9rem 1.2rem;">
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Friends Joined</span>
+                                <h4 id="refStatsFriends" style="margin: 0; font-size: 1.3rem; font-weight: 800; color: var(--text-primary);">0</h4>
+                            </div>
+                            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.9rem 1.2rem;">
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Packages Purchased</span>
+                                <h4 id="refStatsPurchases" style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #10b981;">0</h4>
+                            </div>
+                            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.9rem 1.2rem;">
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">Total Coins Earned</span>
+                                <h4 id="refStatsCoins" style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #fbbf24;"><i class="fas fa-coins text-gold"></i> +0 Coins</h4>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. PACKAGES VIEW -->
+                <section id="view-packages" class="tab-view">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <div>
+                                <h3>Available Packages</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">Choose a package that suits your needs</p>
+                            </div>
+                            <div class="search-bar">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="packageSearchInput" placeholder="Search packages..." onkeyup="filterPackages()">
+                            </div>
+                        </div>
+
+                        <!-- Speed Packages Section -->
+                        <div style="margin-top: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                            <h4 style="margin: 0; color: var(--primary); font-weight: 700; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-bolt text-gradient"></i> Speed Packages (High-Speed VPN)
+                            </h4>
+                        </div>
+                        <div class="packages-grid" id="speedPackagesListGrid" style="margin-bottom: 2.5rem;">
+                            <!-- Filled dynamically by JavaScript app.js -->
+                        </div>
+
+                        <!-- Speed Limit Packages Section -->
+                        <div style="margin-top: 2rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                            <h4 style="margin: 0; color: var(--primary); font-weight: 700; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-gauge-simple-high text-gradient"></i> Speed Limit Packages (Unlimited Fun / Social Packs)
+                            </h4>
+                        </div>
+                        <div class="packages-grid" id="speedLimitPackagesListGrid">
+                            <!-- Filled dynamically by JavaScript app.js -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. ORDERS VIEW -->
+                <section id="view-orders" class="tab-view">
+                    <div class="content-section">
+                        <h3>Uploaded Slips History</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Track your uploaded manual payment receipts and status</p>
+                        
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Package Name</th>
+                                        <th>Price (LKR)</th>
+                                        <th>Payment Slip</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userSlipsHistoryBody">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">No order history found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. MY ACCOUNTS VIEW -->
+                <section id="view-accounts" class="tab-view">
+                    <div class="content-section">
+                        <h3>My Accounts</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">View and manage your V2Ray subscription lines</p>
+                        
+                        <div id="accountsWrapper">
+                            <div class="empty-state-card">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-user-xmark"></i>
+                                </div>
+                                <h4>No Active Accounts</h4>
+                                <p>You do not have any active V2Ray accounts currently.</p>
+                                <button class="btn btn-primary" onclick="switchTab('packages')">Browse Packages</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. FREE CONFIGS VIEW -->
+                <section id="view-freeConfigs" class="tab-view">
+                    <!-- Free Configs Section -->
+                    <div class="content-section" style="margin-bottom: 0;">
+                        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h3 style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-gift text-gradient" style="font-size: 1.25rem;"></i> Free V2Ray Configurations</h3>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">No coins needed. Copy config payload instantly.</p>
+                            </div>
+                            <button class="btn btn-primary" id="btnOpenAddFreeConfigModal" onclick="openAddFreeConfigModal()" style="display: none; align-items: center; gap: 0.5rem; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 10px;">
+                                <i class="fas fa-plus-circle"></i> Add Free Config
+                            </button>
+                        </div>
+
+                        <!-- Free Configs Container -->
+                        <div class="configs-grid" id="freeConfigsListGrid">
+                            <div style="text-align: center; color: var(--text-muted); padding: 2rem; grid-column: 1/-1;">No free configurations available.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. MESSAGES & LIVE CHAT VIEW -->
+                <section id="view-messages" class="tab-view">
+                    <!-- Support Live Chat -->
+                    <div class="content-section" style="margin-bottom: 0; display: flex; flex-direction: column; height: 620px; max-width: 960px; margin: 0 auto; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.65rem;">
+                            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                                <div style="position: relative; width: 38px; height: 38px; flex-shrink: 0;">
+                                    <img src="assets/images/logo_round.jpg" alt="Admin" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--border-color);">
+                                </div>
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                        <h3 style="margin: 0; font-size: 1rem; color: var(--text-primary);">Live Support Chat</h3>
+                                        <span id="userChatHeaderUnreadBadge" style="display: none; background: #22c55e; color: #ffffff; font-size: 0.68rem; font-weight: 700; padding: 1px 7px; border-radius: 10px; box-shadow: 0 0 8px rgba(34,197,94,0.4);">0 New</span>
+                                    </div>
+                                    <span id="chatAdminStatusPill" class="chat-status-pill offline">
+                                        <i id="chatAdminStatusDotIcon" class="fas fa-circle"></i> <span id="chatAdminStatusText">Admin Offline</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="chatRealtimeIndicator" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: #10b981; font-weight: 700; background: rgba(16, 185, 129, 0.12); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.25);">
+                                <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981;"></span>
+                                <span>Real-time</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Messages Window -->
+                        <div id="chatMessagesWindow" style="flex: 1; border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; overflow-y: auto; background: var(--bg-app); margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: auto;">No messages yet. Send a message to start chatting with admin!</div>
+                        </div>
+
+                        <!-- Chat Input Box -->
+                        <form id="chatInputForm" onsubmit="handleSendChatMessage(event)" style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="chatMessageInput" placeholder="Type your message here..." required style="flex: 1; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none; font-size: 0.85rem;">
+                            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.25rem; border-radius: 12px;"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 7. POSTS VIEW -->
+                <section id="view-posts" class="tab-view">
+                    <div class="content-section">
+                        <h3>Community Posts</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Read speed test reports, configuration tutorials, and tips</p>
+                        
+                        <div class="posts-grid" id="postsListGrid">
+                            <!-- Mock Posts -->
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <span class="post-badge">Tutorial</span>
+                                    <span class="post-date">June 11, 2026</span>
+                                </div>
+                                <h4>How to set up V2rayNG on Android</h4>
+                                <p>Follow this simple guide to copy your Tunnel Forde LK subscription URL and import it into v2rayNG client for one-click updates...</p>
+                                <a href="https://t.me/tunnelfordelk" target="_blank" class="post-link">Read full tutorial <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <span class="post-badge">Speed Test</span>
+                                    <span class="post-date">June 10, 2026</span>
+                                </div>
+                                <h4>Airtel TikTok Server Speed Record 85Mbps</h4>
+                                <p>Check our latest speed test records verified on Dialog work & learn lite and Airtel packages. Users report average latency below 45ms...</p>
+                                <a href="https://t.me/tunnelfordelk" target="_blank" class="post-link">View speed test logs <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. ADMIN VIEW -->
+                <section id="view-admin" class="tab-view">
+                    <!-- Admin tabs container: Top Row (Slips & Add Config on same level) -->
+                    <div class="admin-grid-layout">
+                        
+                        <!-- Left column: Slip Approvals -->
+                        <div class="content-section admin-section admin-slips-section" style="margin-bottom: 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                                <h3 style="margin: 0; color: #ef4444;"><i class="fas fa-receipt"></i> Pending Payment Slips (<span id="pendingSlipsCount">0</span>)</h3>
+                                <button type="button" class="btn btn-secondary" onclick="adminCleanupOldSlips()" title="Delete slips older than 30 days to free database storage" style="font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-secondary);">
+                                    <i class="fas fa-trash-can"></i> Clean 30D+ Slips
+                                </button>
+                            </div>
+                            <div class="admin-slips-list" id="adminPendingSlipsList">
+                                <div style="text-align: center; color: var(--text-muted); padding: 2rem;">No pending slips found.</div>
+                            </div>
+                        </div>
+
+                        <!-- Right column: Add V2Ray Config Form -->
+                        <div class="content-section admin-section admin-add-config-section" style="margin-bottom: 0;">
+                            <h3 style="margin-bottom: 1.25rem;"><i class="fas fa-plus-circle"></i> Add V2Ray Config</h3>
+                            <form id="addConfigForm" onsubmit="handlePublishConfig(event)">
+                                <div class="form-group">
+                                    <label for="configTitle">Config Title</label>
+                                    <input type="text" id="configTitle" class="form-control" placeholder="e.g. Airtel Tiktok Free" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="configIsp">ISP Provider</label>
+                                    <select id="configIsp" class="form-control" required>
+                                        <option value="Airtel">Airtel</option>
+                                        <option value="Dialog">Dialog</option>
+                                        <option value="Hutch">Hutch</option>
+                                        <option value="Mobitel">Mobitel</option>
+                                        <option value="Other">Other / All networks</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                        <label for="configText" style="margin: 0;">Configuration String (vless://... or vmess://...)</label>
+                                        <button type="button" class="btn btn-secondary" onclick="adminAutoGenerateConfigText()" style="font-size: 0.75rem; padding: 0.3rem 0.65rem; border-radius: 8px; border: 1px solid var(--primary); color: var(--primary);"><i class="fas fa-wand-magic-sparkles"></i> Auto-Generate from 3x-ui</button>
+                                    </div>
+                                    <textarea id="configText" class="form-control" rows="3" placeholder="Paste config text string or click Auto-Generate..." required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="configType">Configuration Type</label>
+                                    <select id="configType" class="form-control" onchange="toggleConfigCostInput()" required>
+                                        <option value="free">Free Config (0 Coins)</option>
+                                        <option value="premium">Premium Config (Costs Coins)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="configCostGroup" style="display: none; margin-top: 1rem;">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <div>
+                                            <label for="configCoinCost">Coin Unlock Cost</label>
+                                            <input type="number" id="configCoinCost" class="form-control" min="0" value="0" required>
+                                        </div>
+                                        <div>
+                                            <label for="configPrice">Cash Price (LKR)</label>
+                                            <input type="number" id="configPrice" class="form-control" min="0" step="0.01" value="0.00" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Publish Config</button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!-- Clients Registry Manager (Full Width with Profile Photos) -->
+                    <div class="content-section admin-section" style="margin-top: 1.5rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div>
+                                <h3 style="margin: 0;"><i class="fas fa-users-cog"></i> Client Registry</h3>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--text-secondary);">Registered clients, active packages, coin balances, and account management</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 240px;">Client</th>
+                                        <th>Plan / Expiry</th>
+                                        <th>Coins</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminClientsTableBody">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No registered clients loaded.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Support Chat Threads Manager (Admin) -->
+                    <div class="content-section admin-section" style="margin-top: 1.5rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div>
+                                <h3 style="margin: 0; color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-comments"></i> 
+                                    <span>User Support Chats</span>
+                                    <span id="adminUnreadTotalBadge" style="display: none; background: #22c55e; color: #ffffff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; box-shadow: 0 0 8px rgba(34,197,94,0.4);">0 New</span>
+                                </h3>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--text-secondary);">Direct messaging with clients and users</p>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="fetchAdminChatThreads()" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-secondary);">
+                                <i class="fas fa-rotate"></i> Refresh Chats
+                            </button>
+                        </div>
+                        <div class="admin-chats-container">
+                            <!-- Left list: active chats users -->
+                            <div class="admin-chats-sidebar">
+                                <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; padding: 0.25rem 0.25rem 0.6rem 0.25rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Client Inquiries</span>
+                                    <span id="adminChatThreadsCount" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; padding: 2px 7px; border-radius: 10px; font-size: 0.7rem; font-weight: 700;">0</span>
+                                </div>
+                                <div id="adminChatThreadsList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.6rem;">
+                                    <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: auto; padding: 1.5rem 0.5rem;">No active chats.</div>
+                                </div>
+                            </div>
+                            <!-- Right list: chat messages view & reply form -->
+                            <div class="admin-chats-main">
+                                <div id="adminChatActiveUserTitle" style="font-weight: 600; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.65rem; margin-bottom: 0.75rem; color: var(--primary);">Select a user to chat</div>
+                                <div id="adminChatMessagesWindow" style="flex: 1; overflow-y: auto; background: var(--bg-app); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.65rem;">
+                                    <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: auto;">Select a client thread from the list to view chat.</div>
+                                </div>
+                                <form id="adminChatReplyForm" onsubmit="handleSendAdminChatReply(event)" style="display: flex; gap: 0.5rem;">
+                                    <input type="text" id="adminChatReplyInput" placeholder="Type reply here..." required style="flex: 1; padding: 0.65rem 0.85rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none; font-size: 0.85rem;">
+                                    <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.25rem; border-radius: 10px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;"><i class="fas fa-reply"></i> Reply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Packages Manager (Admin) -->
+                    <div class="content-section admin-section" style="margin-top: 1.5rem; width: 100%;">
+                        <h3 style="margin-bottom: 1.25rem; color: var(--primary);"><i class="fas fa-box-open"></i> Packages Manager</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Package Name</th>
+                                        <th>Network / Price</th>
+                                        <th>Details (GB / Days)</th>
+                                        <th>Coins Cost / Bonus</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminPackagesTableBody">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Loading packages...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            
+            <!-- Global Footer -->
+            <footer class="app-footer">
+                <p>&copy; 2026 <strong>Tunnel Forde LK</strong>. All Rights Reserved.</p>
+            </footer>
+        </main>
+
+        <!-- Mobile Bottom Navigation Bar -->
+        <nav class="mobile-bottom-nav" id="mobileBottomNav">
+            <button type="button" class="bottom-nav-item active" data-tab="dashboard" onclick="switchTab('dashboard', event)">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-tab="packages" onclick="switchTab('packages', event)">
+                <i class="fas fa-box"></i>
+                <span>Packages</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-tab="accounts" onclick="switchTab('accounts', event)">
+                <i class="fas fa-user-shield"></i>
+                <span>Accounts</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-tab="orders" onclick="switchTab('orders', event)">
+                <i class="fas fa-receipt"></i>
+                <span>Orders</span>
+            </button>
+            <button type="button" class="bottom-nav-item" data-tab="menu" onclick="toggleMobileSidebar()" style="position: relative;">
+                <i class="fas fa-bars"></i>
+                <span>Menu</span>
+                <span id="mobileMenuNotifDot" class="mobile-notif-dot" style="display: none;"></span>
+                <span id="mobileMenuNotifBadge" class="whatsapp-unread-badge" style="display: none; position: absolute; top: 3px; right: 14px; min-width: 17px; height: 17px; font-size: 0.62rem; padding: 0 4px; z-index: 2;">1</span>
+            </button>
+        </nav>
+
+        <!-- Floating WhatsApp Live Chat Trigger & Alert Bubble -->
+        <div id="floatingChatWidget" class="floating-chat-widget" onclick="handleFloatingChatClick(event)">
+            <div id="floatingChatBubble" class="floating-chat-bubble" style="display: none;">
+                <div style="font-weight: 700; font-size: 0.75rem; color: #10b981; display: flex; align-items: center; gap: 4px;">
+                    <i class="fas fa-circle" style="font-size: 0.45rem;"></i> <span id="floatingChatBubbleTitle">Admin replied:</span>
+                </div>
+                <div id="floatingChatPreviewText" style="font-size: 0.72rem; color: var(--text-primary); max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;">
+                    New message received
+                </div>
+            </div>
+            <button type="button" class="floating-chat-btn" title="Open Live Support Chat">
+                <i class="fas fa-comment-dots"></i>
+                <span id="floatingChatBadge" class="floating-chat-badge" style="display: none;">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: UPLOAD PAYMENT SLIP -->
+    <div class="modal-backdrop" id="slipModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Submit Payment Slip</h3>
+                <button class="modal-close-btn" onclick="closeSlipModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto; padding-right: 0.5rem;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    You are purchasing package: <strong id="modalPackageName" class="gradient-text">--</strong> for <strong id="modalPackagePrice">--</strong>.
+                    <br>Please send the payment to the details below and upload the transaction receipt screen image file to activate.
+                </p>
+
+                <!-- Bank/Payment Details Card -->
+                <div class="payment-methods-card" style="background: var(--bg-app); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.25rem; font-size: 0.8rem; color: var(--text-primary);">
+                    <h4 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-credit-card text-gradient"></i> Payment Methods
+                    </h4>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.75rem; font-weight: 600; font-style: italic;">
+                        (P L D Y L KUMARA - Bandaragama)
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                        <!-- Bank Details -->
+                        <div>
+                            <span style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.35rem;"><i class="fas fa-university" style="color: var(--primary);"></i> Bank Transfer</span>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0.75rem; border-left: 2px solid var(--primary);">
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: 0.75rem;">B.O.C Bank</strong>
+                                    <div style="font-family: monospace; font-size: 0.75rem; color: var(--text-secondary);">• Account No: 0079583072<br>• Branch: Bandaragama</div>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: 0.75rem;">People’s Bank</strong>
+                                    <div style="font-family: monospace; font-size: 0.75rem; color: var(--text-secondary);">• Account No: 121200234069899<br>• Branch: Bandaragama</div>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--text-primary); font-size: 0.75rem;">Commercial Bank</strong>
+                                    <div style="font-family: monospace; font-size: 0.75rem; color: var(--text-secondary);">• Account No: 8027336362<br>• Branch: Bandaragama</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ezcash -->
+                        <div style="border-top: 1px dashed var(--border-color); padding-top: 0.75rem;">
+                            <span style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.35rem;"><i class="fas fa-mobile-screen-button" style="color: var(--primary);"></i> EzCash</span>
+                            <div style="padding-left: 0.75rem; border-left: 2px solid var(--primary); font-family: monospace; font-size: 0.75rem; color: var(--text-secondary);">
+                                • Number: 076 465 3670 (+20)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; font-size: 0.75rem; color: #fbbf24; font-weight: 700; text-align: center; background: rgba(251, 191, 36, 0.05); padding: 0.5rem; border-radius: 8px;">
+                        📌 කරුණාකර ගෙවූ පසු screenshot එකක් එවන්න.
+                    </div>
+                </div>
+                
+                <form id="slipUploadForm" onsubmit="handleSlipSubmit(event)">
+                    <input type="hidden" id="modalPlanId">
+                    <input type="hidden" id="modalPlanPrice">
+                    
+                    <div class="form-group">
+                        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Choose Slip Image File (PNG/JPG)</label>
+                        <label for="slipFileInput" class="custom-file-upload-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed var(--primary); border-radius: 16px; padding: 2rem 1.5rem; cursor: pointer; transition: all 0.2s ease; background: rgba(139, 92, 246, 0.03); text-align: center;">
+                            <i class="fas fa-cloud-arrow-up" style="font-size: 2.25rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                            <span style="font-weight: 700; font-size: 0.85rem; color: var(--text-primary);" id="uploadCardTitle">Select your receipt image</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">Supports PNG, JPG, JPEG</span>
+                            <input type="file" id="slipFileInput" accept="image/*" required onchange="previewSlipImage(event)" style="display: none;">
+                        </label>
+                    </div>
+                    
+                    <div class="slip-preview-container" id="slipPreviewContainer" style="display: none; margin-top: 1.25rem;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Slip Preview:</span>
+                        <img src="" id="slipPreviewImg" class="slip-preview-img" alt="Slip Receipt Preview" style="border-radius: 12px; border: 1px solid var(--border-color); max-height: 250px; object-fit: contain;">
+                    </div>
+                    
+                    <div class="modal-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeSlipModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;" id="btnSubmitSlip">Submit Receipt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN EDIT CLIENT -->
+    <div class="modal-backdrop" id="adminEditUserModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Edit Client Configuration</h3>
+                <button class="modal-close-btn" onclick="closeAdminEditUserModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <h4 id="editUserEmailTitle" style="color: var(--primary); margin-bottom: 1rem; font-size: 0.95rem;">client@gmail.com</h4>
+                
+                <div class="form-group">
+                    <label for="editUserPlan">Assigned Plan</label>
+                    <select id="editUserPlan" class="form-control">
+                        <option value="None">None (Inactive)</option>
+                        <option value="100GB">100GB Plan</option>
+                        <option value="200GB">200GB Plan</option>
+                        <option value="300GB">300GB Plan</option>
+                        <option value="Unlimited">Unlimited Plan</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editUserStatus">Subscription Status</label>
+                    <select id="editUserStatus" class="form-control">
+                        <option value="active">Active</option>
+                        <option value="pending">Pending Slip</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editUserRole">System Role</label>
+                    <select id="editUserRole" class="form-control">
+                        <option value="user">Regular User</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editUserCoins">Coin Balance</label>
+                    <input type="number" id="editUserCoins" class="form-control" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="editUserExpiryDays">Add/Update Expiration (Days from now)</label>
+                    <input type="number" id="editUserExpiryDays" class="form-control" placeholder="e.g. 30" min="0">
+                </div>
+
+                <div class="modal-buttons" style="margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeAdminEditUserModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" style="flex: 1;" onclick="saveAdminClientChanges()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN LOGIN -->
+    <div class="modal-backdrop" id="adminLoginModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Admin Panel Authentication</h3>
+                <button class="modal-close-btn" onclick="closeAdminLoginModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Please enter the administrator credentials to unlock the Admin Panel.
+                </p>
+                <div class="alert alert-danger" id="adminLoginError" style="display: none; margin-bottom: 1rem; background: rgba(239, 68, 68, 0.08); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.15);">
+                    <i class="fas fa-circle-exclamation"></i> Invalid Username or Password.
+                </div>
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminUsernameInput">Username</label>
+                        <input type="text" id="adminUsernameInput" class="form-control" placeholder="Enter admin username" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="adminPasswordInput">Password</label>
+                        <input type="password" id="adminPasswordInput" class="form-control" placeholder="Enter admin password" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+                    
+
+
+                    <div class="modal-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeAdminLoginModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Authenticate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: FORGOT PASSWORD -->
+    <div class="modal-backdrop" id="forgotPasswordModal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Password Reset Request</h3>
+                <button class="modal-close-btn" onclick="closeForgotPasswordModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Sinhala: මුරපදය යාවත්කාලීන කිරීම සඳහා ඔබගේ දුරකථන අංකය සහ නව මුරපදය ඇතුළත් කරන්න.
+                </p>
+                <form id="forgotPasswordForm" onsubmit="handleResetPassword(event)">
+                    <div class="form-group">
+                        <label for="forgotPhoneInput">Registered Phone Number</label>
+                        <input type="tel" id="forgotPhoneInput" class="form-control" placeholder="e.g. 0771234567" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="forgotNewPasswordInput">New Password</label>
+                        <input type="password" id="forgotNewPasswordInput" class="form-control" placeholder="Enter new password" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+                    
+                    <div class="modal-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeForgotPasswordModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <i class="fas fa-key"></i> Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: RENEW PLAN -->
+    <div class="modal-backdrop" id="renewPlanModal" style="display: none;">
+        <div class="modal-card" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-rotate" style="color: var(--primary); margin-right: 0.5rem;"></i> Renew Subscription</h3>
+                <button class="modal-close-btn" onclick="closeRenewModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 1rem; background: var(--bg-hover); border-radius: 12px; margin-bottom: 1.25rem; border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Renewing Package File:</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary);" id="renewPlanName">--</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.35rem;" id="renewConfigDetails">--</div>
+                </div>
+
+                <!-- GB Selector -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label for="renewGbSelector" style="font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fas fa-database text-gradient"></i> Select Data Volume (GB)</span>
+                        <span id="renewGbBadge" class="badge" style="background: rgba(99, 102, 241, 0.15); color: var(--primary); font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 6px;">+30 Days</span>
+                    </label>
+                    <select id="renewGbSelector" class="form-control" onchange="handleRenewGbChange(this.value)" style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem; font-weight: 600; outline: none;">
+                        <option value="100">100 GB Data Volume (30 Days)</option>
+                        <option value="200">200 GB Data Volume (30 Days)</option>
+                        <option value="300">300 GB Data Volume (30 Days)</option>
+                        <option value="Unlimited">Unlimited GB Data Volume (30 Days)</option>
+                    </select>
+                </div>
+                
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                    Choose your renewal payment method:
+                </p>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                    <!-- Option 1: Coins -->
+                    <button type="button" class="btn btn-primary" onclick="submitRenewWithCoins()" style="justify-content: flex-start; padding: 1rem 1.25rem; border-radius: 14px; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); border: none; cursor: pointer; color: white;">
+                        <i class="fas fa-coins" style="font-size: 1.6rem; margin-right: 0.75rem;"></i>
+                        <div style="text-align: left;">
+                            <div style="font-weight: 700; font-size: 0.95rem;" id="renewCoinBtnTitle">Renew with Coins</div>
+                            <div style="font-size: 0.75rem; opacity: 0.95;" id="renewCoinCostText">Pay 100 Coins • Instant +30 Days Renewal</div>
+                        </div>
+                    </button>
+
+                    <!-- Option 2: Payment Slip -->
+                    <button type="button" class="btn btn-secondary" onclick="submitRenewWithSlip()" style="justify-content: flex-start; padding: 1rem 1.25rem; border-radius: 14px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); cursor: pointer;">
+                        <i class="fas fa-receipt" style="font-size: 1.6rem; margin-right: 0.75rem; color: var(--primary);"></i>
+                        <div style="text-align: left;">
+                            <div style="font-weight: 700; font-size: 0.95rem;" id="renewSlipBtnTitle">Renew with Bank Slip</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary);" id="renewSlipPriceText">LKR 200.00 • Upload bank receipt slip</div>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="modal-buttons" style="margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-block btn-secondary" onclick="closeRenewModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL: ADMIN EDIT PACKAGE -->
+    <div class="modal-backdrop" id="adminEditPackageModal" style="display: none;">
+        <div class="modal-card" style="max-width: 550px;">
+            <div class="modal-header">
+                <h3>Edit Package Details</h3>
+                <button class="modal-close-btn" onclick="closeAdminEditPackageModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto; padding-right: 0.5rem;">
+                <form id="adminEditPackageForm" onsubmit="saveAdminPackageChanges(event)">
+                    <input type="hidden" id="editPkgId">
+                    
+                    <div class="form-group">
+                        <label for="editPkgName">Package Name</label>
+                        <input type="text" id="editPkgName" class="form-control" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label for="editPkgNetwork">Network</label>
+                            <select id="editPkgNetwork" class="form-control" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                                <option value="Airtel">Airtel</option>
+                                <option value="Dialog">Dialog</option>
+                                <option value="Hutch">Hutch</option>
+                                <option value="Mobitel">Mobitel</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPkgBadge">Card Badge Type</label>
+                            <select id="editPkgBadge" class="form-control" style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                                <option value="">None (Standard)</option>
+                                <option value="limited">Limited (Limited Offer)</option>
+                                <option value="offer">Offer (Special Offer)</option>
+                                <option value="hot">Hot Deal (Fire)</option>
+                                <option value="vesak">Vesak Offer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Offer & Pricing Section -->
+                    <div style="margin-top: 1rem; padding: 1rem; border-radius: 12px; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <label for="editPkgIsOffer" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 700; color: #10b981; margin: 0; font-size: 0.9rem;">
+                                <input type="checkbox" id="editPkgIsOffer" style="width: 18px; height: 18px; cursor: pointer; accent-color: #10b981;" onchange="toggleEditPkgOfferFields()">
+                                <span>Enable Active Offer / Discount</span>
+                            </label>
+                            <span id="editPkgDiscountPreview" style="font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: rgba(239, 68, 68, 0.18); color: #ef4444; display: none;">0% OFF</span>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="editPkgOriginalPrice" style="font-size: 0.8rem; color: var(--text-secondary);">Regular / Was Price (LKR)</label>
+                                <input type="number" id="editPkgOriginalPrice" class="form-control" min="0" step="0.01" placeholder="e.g. 350.00" oninput="updateEditPkgDiscountPreview()" style="width: 100%; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPkgPrice" style="font-size: 0.8rem; font-weight: 700; color: #10b981;">Selling / Offer Price (LKR) *</label>
+                                <input type="number" id="editPkgPrice" class="form-control" min="0" step="0.01" required placeholder="e.g. 200.00" oninput="updateEditPkgDiscountPreview()" style="width: 100%; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1.5px solid #10b981; background: var(--bg-card); color: var(--text-primary); outline: none; font-weight: 700;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label for="editPkgLimitGB">Data Limit (GB)</label>
+                            <input type="number" id="editPkgLimitGB" class="form-control" min="0" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPkgDays">Validity (Days)</label>
+                            <input type="number" id="editPkgDays" class="form-control" min="1" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="editPkgDesc">Description (e.g. 297 / 997 Tiktok Package)</label>
+                        <input type="text" id="editPkgDesc" class="form-control" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="editPkgPromo">Promo Tag (e.g. Special Vesak Offer!)</label>
+                        <input type="text" id="editPkgPromo" class="form-control" style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label for="editPkgServer">Server Node (e.g. PREMIUM SERVER 70)</label>
+                            <input type="text" id="editPkgServer" class="form-control" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPkgRemaining">Remaining Accounts Count</label>
+                            <input type="number" id="editPkgRemaining" class="form-control" min="0" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label for="editPkgBonusCoins">Bonus Coins Awarded</label>
+                            <input type="number" id="editPkgBonusCoins" class="form-control" min="0" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPkgCoinCost">Coin Unlock Cost</label>
+                            <input type="number" id="editPkgCoinCost" class="form-control" min="0" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                        </div>
+                    </div>
+
+                    <div class="modal-buttons" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeAdminEditPackageModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL: ADD FREE CONFIG (ADMIN) -->
+    <div class="modal-backdrop" id="addFreeConfigModal" style="display: none;">
+        <div class="modal-card" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3 style="display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-gift text-gradient"></i> Add Free V2Ray Config</h3>
+                <button class="modal-close-btn" onclick="closeAddFreeConfigModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickAddFreeConfigForm" onsubmit="handleQuickAddFreeConfig(event)">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="quickConfigTitle" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Config Title</label>
+                        <input type="text" id="quickConfigTitle" class="form-control" placeholder="e.g. Dialog TikTok Free Line" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="quickConfigIsp" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">ISP / Network</label>
+                        <select id="quickConfigIsp" class="form-control" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none;">
+                            <option value="Dialog">Dialog</option>
+                            <option value="Airtel">Airtel</option>
+                            <option value="Hutch">Hutch</option>
+                            <option value="Mobitel">Mobitel</option>
+                            <option value="Other">All Networks / Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.25rem;">
+                        <label for="quickConfigText" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Configuration String (vless:// or vmess://)</label>
+                        <textarea id="quickConfigText" class="form-control" rows="4" placeholder="Paste vless://... or vmess://... string here..." required style="width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none; font-family: monospace; font-size: 0.82rem;"></textarea>
+                    </div>
+                    <div class="modal-buttons" style="display: flex; gap: 0.75rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeAddFreeConfigModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;"><i class="fas fa-paper-plane"></i> Publish Free Config</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SUBSCRIPTION QR CODE -->
+    <div class="modal-backdrop" id="subscriptionQrModal" style="display: none; align-items: center; justify-content: center; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); z-index: 10000; backdrop-filter: blur(6px);">
+        <div class="modal-card" style="max-width: 440px; width: 90%; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                <h3 style="display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 1.15rem; color: var(--text-primary);">
+                    <i class="fas fa-qrcode text-gradient"></i> Subscription QR Code
+                </h3>
+                <button class="modal-close-btn" onclick="closeSubscriptionQrModal()" style="background: transparent; border: none; font-size: 1.1rem; color: var(--text-muted); cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 0.5rem 0;">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">
+                    Scan with <strong>v2rayNG</strong>, <strong>Streisand</strong>, <strong>Sing-box</strong> or <strong>Clash</strong> camera to import this configuration line directly.
+                </p>
+                <div style="background: #ffffff; padding: 14px; border-radius: 16px; display: inline-block; box-shadow: 0 8px 24px rgba(0,0,0,0.15); margin-bottom: 1.25rem; border: 1px solid rgba(0,0,0,0.08);">
+                    <img id="subscriptionQrImage" src="" alt="Subscription QR Code" style="width: 220px; height: 220px; display: block; object-fit: contain; border-radius: 6px;">
+                </div>
+                <div style="margin-bottom: 1.25rem;">
+                    <input type="text" id="subscriptionQrLinkInput" readonly style="width: 100%; padding: 0.65rem 0.9rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-app); color: var(--text-primary); font-size: 0.78rem; font-family: monospace; outline: none; text-align: center;">
+                </div>
+                <div class="modal-buttons" style="display: flex; gap: 0.75rem;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeSubscriptionQrModal()">Close</button>
+                    <button type="button" class="btn btn-primary" style="flex: 1;" onclick="copySubscriptionQrLink()"><i class="fas fa-copy"></i> Copy Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="assets/js/app.js?v=1.3.5"></script>
+</body>
+</html>
